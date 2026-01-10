@@ -1,0 +1,5 @@
+[[redirects]]
+  # This ensures that React Router paths (like /login) work after refresh
+  from = "/*"
+  to = "/index.html"
+  status = 200
