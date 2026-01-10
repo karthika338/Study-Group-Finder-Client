@@ -1,0 +1,108 @@
+.time-container {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+
+
+ /* Background image */
+  background-image:
+    linear-gradient(
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.55)
+    ),
+    url("https://images.unsplash.com/photo-1523240795612-9a054b0db644");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Header */
+.time-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.time-header h2 {
+  font-size: 32px;
+  color: #eaf02f;
+}
+
+.time-header p {
+  color: #faf5f5;
+  margin-top: 10px;
+}
+
+/* Time card container */
+.time-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+/* Individual time box */
+.time-box {
+  background: white;
+  padding: 18px;
+  border-radius: 15px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.time-box:hover {
+  transform: translateY(-5px);
+}
+
+.time-box.active {
+  background: linear-gradient(135deg, #4a0a66, #7b2cbf);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Add time card */
+.add-time-card {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.add-time-card input {
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  width: 250px;
+}
+
+.add-time-card button {
+  padding: 12px 25px;
+  border-radius: 25px;
+  border: none;
+  background: #4a0a66;
+  color: white;
+  cursor: pointer;
+}
+
+/* Next button */
+.next-btn {
+  padding: 15px 40px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(135deg, #4a0a66, #7b2cbf);
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.next-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(74, 10, 102, 0.4);
+}
