@@ -1,7 +1,7 @@
-const axios = require("axios");
+import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://study-group-finder-server.vercel.app",
+    baseURL: "study-group-finder-server.vercel.app",
 });
 
-module.exports = api;
+export default api;
