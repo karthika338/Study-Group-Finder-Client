@@ -1,7 +1,7 @@
 // Signin.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api"; // ✅ Make sure api.js has your backend URL
+import api from "../api/axios"; // ✅ Make sure api.js has your backend URL
 import "./signin.css";
 
 const Signin = () => {
