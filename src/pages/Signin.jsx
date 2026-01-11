@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api/axios";
 import "./signin.css";
 
 const Signin = () => {
   const navigate = useNavigate();
-
   const [isSignup, setIsSignup] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -14,106 +14,45 @@ const Signin = () => {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.email.endsWith("@gmail.com")) {
-      alert("Use a valid Gmail address");
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      alert("Password must be at least 6 characters");
-      return;
-    }
-
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-
-    // 🔹 SIGN UP
-    if (isSignup) {
-      if (formData.password !== formData.confirmPassword) {
-        alert("Passwords do not match");
-        return;
+    try {
+      if (isSignup) {
+        await api.post("/auth/signin", formData);
+        alert("Signup successful 🎉 Please login");
+        setIsSignup(false);
+      } else {
+        await api.post("/auth/login", {
+          email: formData.email,
+          password: formData.password,
+        });
+        alert("Login successful 🎉");
+        navigate("/home");
       }
-
-      const userExists = users.find(
-        (u) => u.email === formData.email
-      );
-
-      if (userExists) {
-        alert("User already exists ❌");
-        return;
-      }
-
-      users.push({
-        email: formData.email,
-        password: formData.password,
-      });
-
-      localStorage.setItem("users", JSON.stringify(users));
-
-      alert("Signup successful 🎉 Please login");
-      setIsSignup(false);
-      setFormData({ email: "", password: "", confirmPassword: "" });
-      return;
-    }
-
-    // 🔹 LOGIN
-    const validUser = users.find(
-      (u) =>
-        u.email === formData.email &&
-        u.password === formData.password
-    );
-
-    if (validUser) {
-      alert("Login successful 🎉");
-      navigate("/home");
-    } else {
-      alert("Invalid email or password ❌");
+    } catch (err) {
+      alert(err.response?.data?.message || "Error");
     }
   };
 
   return (
     <section className="signin-bg">
       <div className="signin-card">
-        <h1 className="signin-title">
-          {isSignup ? "Create Account ✨" : "Welcome Back 👋"}
-        </h1>
-
-        <p className="signin-subtitle">
-          {isSignup ? "Sign up to get started" : "Login to continue"}
-        </p>
+        <h1>{isSignup ? "Create Account" : "Login"}</h1>
 
         <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="📧 Email address"
-            value={formData.email}
-            onChange={handleChange}
-          />
-
-          <input
-            type="password"
-            name="password"
-            placeholder="🔒 Password"
-            value={formData.password}
-            onChange={handleChange}
-          />
+          <input name="email" onChange={handleChange} placeholder="Email" />
+          <input name="password" type="password" onChange={handleChange} placeholder="Password" />
 
           {isSignup && (
             <input
-              type="password"
               name="confirmPassword"
-              placeholder="🔁 Confirm password"
-              value={formData.confirmPassword}
+              type="password"
               onChange={handleChange}
+              placeholder="Confirm Password"
             />
           )}
 
@@ -122,15 +61,8 @@ const Signin = () => {
           </button>
         </form>
 
-        {/* 🔁 TOGGLE */}
-        <p style={{ marginTop: "15px", color: "#fff" }}>
-          {isSignup ? "Already have an account?" : "New user?"}{" "}
-          <span
-            style={{ color: "#facc15", cursor: "pointer" }}
-            onClick={() => setIsSignup(!isSignup)}
-          >
-            {isSignup ? "Login" : "Sign Up"}
-          </span>
+        <p onClick={() => setIsSignup(!isSignup)}>
+          {isSignup ? "Login" : "Sign Up"}
         </p>
       </div>
     </section>
